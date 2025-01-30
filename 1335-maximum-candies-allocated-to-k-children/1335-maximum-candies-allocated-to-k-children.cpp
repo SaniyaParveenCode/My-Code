@@ -1,32 +1,20 @@
 class Solution {
 public:
-    bool canSplit(vector<int>& candies, long long k, long long mid) {
-        long long split = 0;
-        for(int i = 0; i < candies.size(); ++i) {
-            split += candies[i]/mid;
-        }   
-        if(split >= k)
-            return true;
-        else
-            return false;
-    }
-    
     int maximumCandies(vector<int>& candies, long long k) {
-        long long sum = 0;
-        for(int i = 0; i < candies.size(); ++i) {
-            sum += candies[i];
-        }
-        long long start = 1, end = sum/k;
-        long long ans = 0;
-        while(start <= end) {
-            long long mid = (start + end)/2;
-            if(canSplit(candies, k, mid)) {
-                ans = mid;
-                start = mid + 1;
+        int left = 1;
+        int right = *max_element(candies.begin(), candies.end()) + 1; // Binary search range
+        while (left < right) {
+            long long sum = 0;
+            int mid = (left + right) / 2; // Midpoint
+            for (auto i : candies) {
+                sum += i / mid; //  total children satisfied with mid candies each
+            }
+            if (k > sum) { // If fewer children are satisfied
+                right = mid; // Move left
             } else {
-                end = mid-1;
+                left = mid + 1; // Move right
             }
         }
-        return ans;
+        return left - 1; // Result is left - 1
     }
 };
