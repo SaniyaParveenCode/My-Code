@@ -4,7 +4,7 @@ public:
         int left = 1;
         int right = *max_element(candies.begin(), candies.end()) + 1; // Binary search range
         while (left < right) {
-            long long sum = 0;
+          long long sum = 0;
             int mid = (left + right) / 2; // Midpoint
             for (auto i : candies) {
                 sum += i / mid; //  total children satisfied with mid candies each
