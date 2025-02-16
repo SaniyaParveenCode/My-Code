@@ -1,13 +1,17 @@
 class Solution {
-public:
-    int fib(int n) {
-        if(n==0){
-        return 0;
-        }
-        else if ( n==1 ) {
-            return 1;
-        }
-        return(fib(n-1) + fib(n-2));
-        
+    public:
+    int fibHelp(int n , vector<int>&dp) {
+        if(n==0 || n==1) 
+        return n;
+
+        if(dp[n] != -1) 
+            return dp[n];
+    
+          dp[n] =  fibHelp(n-1 , dp) + fibHelp(n-2 , dp);
+          return dp[n];
+    }
+    int fib(int n ) {
+            vector<int>dp(n+1  , -1);
+            return fibHelp( n,dp);
     }
 };
