@@ -1,59 +1,66 @@
 class Solution {
 public:
-    int dfs(vector<vector<int>>&adj, int node, int t, map<int,int>&visited, vector<int>&amount) {
-        int currVal = amount[node];
-        if (visited.count(node)) {
-            if (visited[node] < t) currVal = 0;
-            else if (visited[node] == t) currVal /= 2;
-        }
-        if (adj[node].size() == 0) return currVal;
-        int res = INT_MIN;
-        for (auto nbr : adj[node]) {
-            res = max(res, dfs(adj, nbr, t+1, visited, amount));
-        }
-        return currVal + res;
-    }
-
-    int mostProfitablePath(vector<vector<int>>& edges, int bob, vector<int>& amount) {
+    unordered_map<int, int> bobPath;
+    unordered_map<int, int> profit;
+    vector<int> amount;
+    int mostProfitablePath(vector<vector<int>>& edges, int bob, vector<int>& amn) {
         int n = edges.size() + 1;
-        vector<vector<int>> adj(n, vector<int>());
-        vector<vector<int>> tree(n, vector<int>());
-        vector<int> parent(n, 0);
-
-        for (int i = 0; i < n-1; i++) {
-            adj[edges[i][0]].push_back(edges[i][1]);
-            adj[edges[i][1]].push_back(edges[i][0]);
+        amount = amn;
+        vector<int> parent;
+        parent.reserve(n);
+        vector<int> visit(n, 0);
+        vector<vector<int>>g(n);
+        for (auto &edge : edges) {
+            g[edge[0]].push_back(edge[1]);
+            g[edge[1]].push_back(edge[0]);
         }
-
-        vector<int> added(n, 0);
-        queue<int> q;
-        q.push(0);
-        added[0] = 1;
-        while (!q.empty()) {
-            int node = q.front();
-            q.pop();
-            for (auto nbr : adj[node]) {
-                if (!added[nbr]) {
-                    added[nbr]++;
-                    tree[node].push_back(nbr);
-                    q.push(nbr);
-                }
-            }
+        parent[0] = -1;
+        dfs(g, 0, visit, parent);
+        int bobstep = 0;
+        while (bob >= 0) {
+            bobPath[bob] = bobstep;
+            bob = parent[bob];
+            bobstep++;
         }
-
         for (int i = 0; i < n; i++) {
-            for (auto child : tree[i]) {
-                parent[child] = i;
+            visit[i] = 0;
+        }
+        dfs_profit(g, 0, visit, 0, 0);
+        int result = INT_MIN;
+        for (auto pr : profit) {
+            if (pr.first != 0 && g[pr.first].size() == 1)
+                result = max(result, pr.second);
+        }
+        return result;
+    }
+    
+    void dfs_profit(vector<vector<int>> &g, int node, vector<int>& visit, int lvl, int prf) {
+        if (bobPath.find(node) != bobPath.end()) {
+            if (bobPath[node] < lvl) {
+                profit[node] = prf;
+            } else if (bobPath[node] == lvl) {
+                profit[node] = prf + amount[node] / 2;
+            } else {
+                profit[node] = prf + amount[node];
+            }
+        } else {
+            profit[node] = prf + amount[node];
+        }
+        visit[node] = 1;
+        for (auto adjNode: g[node]) {
+            if (visit[adjNode] == 0) {
+                dfs_profit(g, adjNode, visit, lvl + 1, profit[node]);
             }
         }
-
-        map<int, int> visited;
-        int t = 0;
-        int node = bob;
-        while (node != 0) {
-            visited[node] = t++;
-            node = parent[node];
-        }
-        return dfs(tree, 0, 0, visited, amount);
     }
+    void dfs(vector<vector<int>> &g, int node, vector<int>& visit, vector<int>& parent) {
+        visit[node] = 1;
+        for (int adjNode: g[node]) {
+            if (visit[adjNode] == 0) {
+                parent[adjNode] = node;
+                dfs(g, adjNode, visit, parent);
+            }
+        }
+    }
+
 };
