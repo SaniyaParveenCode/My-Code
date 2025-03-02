@@ -4,7 +4,7 @@ public:
         int n = nums1.size();
         int m = nums2.size();
 
-        unordered_map<int , int>mp;
+       map<int , int>mp;
         vector<vector<int>> result;
 
         for(int i=0;i<n;i++)
@@ -26,7 +26,7 @@ public:
 
             result.push_back({key , val});
         }
-        sort(begin(result) , end(result));
+       
         return result;
     }
 };
