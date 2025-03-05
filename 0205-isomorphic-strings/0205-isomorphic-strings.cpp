@@ -12,7 +12,7 @@ public:
         }
         mp.clear();
 
-        for(int i=0;i<s.size();i++) {
+        for(int i=0;i<t.size();i++) {
             if(mp.find(t[i]) != mp.end()) {
                 if(mp[t[i]] != s[i]) return false;
             }
