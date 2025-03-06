@@ -2,23 +2,23 @@ class Solution {
 public:
     int subarraySum(vector<int>& nums, int k)
     {
-        int count = 0;
-        int n = nums.size();
+        unordered_map<int , int>prefixSumMap;
+        int count = 0 , sum =0;
 
-        for(int i = 0;i<n;i++) 
-        {
-            int sum = 0;
+        prefixSumMap[0] = 1;
 
-            for(int j = i;j<n;j++)
-              {
-                sum += nums[j];
-                if(sum==k) 
-                {
-                  count++;
-                }
-              }
+        for(int num :nums) {
+            sum+=num;
+
+            if(prefixSumMap.find(sum-k) != prefixSumMap.end()) {
+                count += prefixSumMap[sum - k];
+            }
+            prefixSumMap[sum]++;
         }
-      
-      return count;
+        return count;
+
     }
 };
+
+
+
