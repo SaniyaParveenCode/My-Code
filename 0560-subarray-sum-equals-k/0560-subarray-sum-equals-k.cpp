@@ -9,9 +9,10 @@ public:
 
         for(int num :nums) {
             sum+=num;
+            int remainder = (sum % k + k ) % k;
 
             if(mp.find(sum-k) != mp.end()) {
-                count += mp[sum - k];
+                count += mp[remainder];
             }
             mp[sum]++;
         }
