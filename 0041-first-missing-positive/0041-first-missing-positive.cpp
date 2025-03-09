@@ -3,18 +3,17 @@ public:
     int firstMissingPositive(vector<int>& nums) {
         int n = nums.size();
 
-        for(int i=0;i<n;i++) {
-            int x = nums[i];
+       unordered_map<int , bool>mp;
 
-            while(x>=1 && x<=n && x!= i+1 && nums[x-1] != x) {
-                swap(nums[x-1] , nums[i]);
-                x = nums[i];
-            }
-        }
-        for(int i=0;i<n;i++) {
-            if(nums[i] == i+1) continue;
-            return i+1;
-        }
-        return n+1;
+       int maxi = *max_element(nums.begin() , nums.end());
+       for(auto &num : nums) {
+        mp[num] = true;
+       }
+
+       for(int i = 1;i<maxi;i++) {
+        if(mp.find(i) == mp.end())
+        return i;
+       }
+       return maxi < 0 ? 1 : maxi+1;
     }
 };
