@@ -6,13 +6,9 @@ public:
        if(m *n != original.size()) {
         return {};
        }
-       int index = 0;
 
-       for(int i = 0;i<m;i++) {
-        for(int j = 0;j<n;j++) {
-            ans[i][j]=original[index];
-            index++;
-        }
+       for(int i = 0;i<original.size();i++) {
+        ans[i / n][i % n] = original[i];
        }
        return ans;
     }
