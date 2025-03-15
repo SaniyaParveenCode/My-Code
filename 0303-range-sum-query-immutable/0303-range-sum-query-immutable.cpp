@@ -1,15 +1,11 @@
 class NumArray {
 public:
-    vector<int>v;
+    vector<int>nums;
     NumArray(vector<int> &nums) {
-        int n = nums.size();
-        v.resize(n+1 , 0);
-        for(int i=0;i<n;i++) {
-            v[i+1] = v[i] + nums[i];
+      this->nums = nums;
         }
-     }
      int sumRange(int left , int right) {
-        return v[right+1] -v[left];
+         return accumulate(this->nums.begin()+ left ,this->nums.begin() + right + 1 , 0);
      }
     };
 
