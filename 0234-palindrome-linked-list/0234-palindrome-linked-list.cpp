@@ -11,31 +11,31 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        if (!head || !head->next) return true;
-
-        // Find the middle of the list
-        ListNode *slow = head, *fast = head;
-        while (fast && fast->next) {
+        ListNode* slow = head, *fast = head;
+        while(fast and fast->next){
             slow = slow->next;
             fast = fast->next->next;
         }
-
-        // Reverse the second half of the list
-        ListNode *prev = nullptr, *curr = slow, *temp;
-        while (curr) {
-            temp = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = temp;
+        if(fast != NULL and fast->next == NULL ){
+            slow = slow->next;
         }
-
-        // Compare the two halves
-        ListNode *first = head, *second = prev;
-        while (second) {
-            if (first->val != second->val) return false;
-            first = first->next;
-            second = second->next;
+        
+        ListNode* prev = NULL;
+        while(slow and slow->next){
+            ListNode* temp = slow->next;
+            slow->next = prev;
+            prev = slow;
+            slow = temp;
+        }
+        if(slow != NULL){slow->next = prev;}
+        fast = head;
+        while(slow and fast){
+            if(slow->val != fast->val)
+                return false;
+            slow = slow->next;
+            fast = fast->next;
         }
         return true;
+        
     }
 };
