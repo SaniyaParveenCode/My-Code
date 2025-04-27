@@ -1,7 +1,7 @@
 class Solution {
 public:
 bool isValid(int i , int j , int n, int m, vector<vector<int>>& grid) {
-    if(i >= 0 && i < n && j>=0 && j<m&& grid[i][j] == 1) {
+    if(i >= 0 && i < n && j>=0 && j<m && grid[i][j] == 1) {
         return true;
     }
     return false;
