@@ -1,48 +1,37 @@
 class Solution {
 public:
- vector<int> previous_smaller(vector<int>&heights) {
-    vector<int>ans;
-    stack<int> st;
-    int n= heights.size();
-
-    for(int i=0;i<n;i++) {
-        while(st.empty()==false && heights[st.top()]>=heights[i]) {
-            st.pop();
-
-        }
-        int ele = (st.empty()) ? -1 : st.top();
-        ans.push_back(ele);
-        st.push(i);
-    }
-    return ans;
- }
- 
- vector<int> next_smaller(vector<int>& heights) {
-    vector<int> ans;
-    stack<int>st;
-    int n= heights.size();
-
-    for(int i=n-1;i>=0;i--) {
-        while(st.empty()==false && heights[st.top()] >=heights[i] ) {
-            st.pop();
-        }
-        int ele = (st.empty()) ? n:st.top();
-        ans.push_back(ele);
-        st.push(i);
-    }
-    reverse(ans.begin(),ans.end());
-    return ans;
- }
     int largestRectangleArea(vector<int>& heights) {
-        int res =0;
-        int n= heights.size();
-        vector<int>ps= previous_smaller(heights);
-        vector<int>ns= next_smaller(heights);
+        int n = heights.size();
+        stack<int> s;
+        vector<int> left(n, 0);
+        vector<int> right(n, 0);
+        int maxarea = 0;
 
-        for(int i=0;i<n;i++) {
-            int curr = (ns[i]-ps[i]-1)* heights[i];
-            res = max(res,curr);
+        // Calculate left boundaries
+        for (int i = 0; i < n; i++) {
+            while (!s.empty() && heights[s.top()] >= heights[i]) {
+                s.pop();
+            }
+            left[i] = s.empty() ? 0 : s.top() + 1;
+            s.push(i);
         }
-        return res;
+
+        while (!s.empty()) s.pop();
+
+        // Calculate right boundaries
+        for (int i = n - 1; i >= 0; i--) {
+            while (!s.empty() && heights[s.top()] >= heights[i]) {
+                s.pop();
+            }
+            right[i] = s.empty() ? n - 1 : s.top() - 1;
+            s.push(i);
+        }
+
+        // Calculate the maximum area
+        for (int i = 0; i < n; i++) {
+            maxarea = max(maxarea, (right[i] - left[i] + 1) * heights[i]);
+        }
+
+        return maxarea;
     }
 };
