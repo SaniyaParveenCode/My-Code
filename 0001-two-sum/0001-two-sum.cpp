@@ -4,16 +4,16 @@ public:
       int a , b;
       int n = nums.size();
       unordered_map<int , int>mp;
-      for(int a = 0;a<n;a++) {
-        b = target - nums[a];
+      for(int i = 0;i<n;i++) 
+      {
+        b = target - nums[i];
 
         if(mp.find(b) != mp.end()) 
         {
-            return {mp[b] , a};
+            return {mp[b] , i};
         }
-        mp[nums[a]] = a;
+        mp[nums[i]] = i;
       }
       return {};
-
     }
 };
