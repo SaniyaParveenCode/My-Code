@@ -12,7 +12,7 @@ return output;
 int top = 0; 
 int bottom = n - 1;
 int left = 0;
-int right = m- 1;
+int right = m - 1;
 
 while(top <= bottom && left <=right) {
     
@@ -45,3 +45,5 @@ for(int l = bottom;l>=top;l--) {
 return output;
 }
 };
+
+
