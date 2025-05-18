@@ -13,6 +13,7 @@ public:
         }
         top++;
 
+        // last col
         for(int p = top;p<= bottom;p++) {
             ans[p][right] = index;
             index++;
