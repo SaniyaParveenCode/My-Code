@@ -21,14 +21,15 @@ for(int j = left;j<=right;j++) {
 }
 top++;
 
-
 for(int i = top;i<=bottom;i++) {
     output.push_back(matrix[i][right]);
 }
 right--;
 
 
-if(top <= bottom) {
+if(top <= bottom)
+  {
+    
 for(int k = right;k>=left;k--) {
     output.push_back(matrix[bottom][k]);
 }
