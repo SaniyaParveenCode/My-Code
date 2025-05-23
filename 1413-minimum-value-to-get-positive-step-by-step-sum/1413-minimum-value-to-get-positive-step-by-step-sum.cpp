@@ -9,5 +9,6 @@ int minStartValue(vector<int>nums) {
         mini_ = min(mini_ , sum);
     }
     return max(1 , 1-mini_);
+    // startValue+mini_≥1 , startValue≥1−mini_
 }
 };
