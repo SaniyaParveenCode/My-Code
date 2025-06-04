@@ -1,21 +1,29 @@
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
-        int n = prices.size();
-        if(n==0)
-        return 0;
-
-        int firstBuy = INT_MIN;
-        int firstSell = 0;
-        int secondBuy = INT_MIN;
-        int secondSell = 0;
-
-        for(int price : prices) {
-            firstBuy = max(firstBuy , -price);
-            firstSell = max(firstSell , firstBuy + price);
-            secondBuy = max(secondBuy , firstSell -price);
-            secondSell = max(secondSell , secondBuy + price);
+    int solve(int day, vector<int>& prices, int transactionsLeft) {
+        //  No days left or no transactions left
+        if (day == prices.size() || transactionsLeft == 0) {
+            return 0;
         }
-        return secondSell;
+
+        // No transaction today
+        int ans1 = solve(day + 1, prices, transactionsLeft);
+
+        int ans2 = 0;
+        bool buy = (transactionsLeft % 2 == 0); // Even transactionsLeft means we can buy
+
+        if (buy) {
+            // Buy stock
+            ans2 = -prices[day] + solve(day + 1, prices, transactionsLeft - 1);
+        } else {
+            // Sell stock
+            ans2 = prices[day] + solve(day + 1, prices, transactionsLeft - 1);
+        }
+
+        return max(ans1, ans2); // Return the maximum profit
+    }
+
+    int maxProfit(vector<int>& prices) {
+        return solve(0, prices, 4); // Start from day 0 with 4 transactions allowed
     }
 };
