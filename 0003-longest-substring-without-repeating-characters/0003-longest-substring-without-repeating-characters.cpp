@@ -8,7 +8,7 @@ public:
     while(start < S.size()) {
         auto it = st.find(S[start]);
         if(it == st.end()) {
-            if(start - end +1 > max) 
+            if(start - end + 1 > max) 
             max = start - end +1;
             st.insert(S[start]);
             start++;
