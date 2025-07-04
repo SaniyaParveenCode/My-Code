@@ -46,8 +46,8 @@ vector<int>parent;
                 char first = s[0];
                 char second = s[3];
 
-                int parent_first = find(first - '0');
-                int parent_second = find(second - '0');
+                int parent_first = find(first - 'a');
+                int parent_second = find(second - 'a');
 
                 if(parent_first == parent_second) {
                     return false;
