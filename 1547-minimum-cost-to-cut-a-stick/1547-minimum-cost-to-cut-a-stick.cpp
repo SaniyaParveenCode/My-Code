@@ -1,36 +1,24 @@
 class Solution {
 public:
-    int t[103][103];
-    int solve(vector<int>& cuts, int left, int right) {
-        
-        if(right - left == 1)
-            return 0;
-        
-        if(t[left][right] != -1)
-            return t[left][right];
-        
-        int result = INT_MAX;
-        
-        for(int index = left+1; index <= right-1; index++) {
-            
-            int cost = solve(cuts, left, index) + solve(cuts, index, right) + (cuts[right] - cuts[left]);
-            
-            result = min(result, cost);
-            
-        }
-        
-        return t[left][right] = result;
-        
-    }
-    
     int minCost(int n, vector<int>& cuts) {
-        sort(begin(cuts), end(cuts));
-        
-        cuts.insert(begin(cuts), 0);
+        cuts.push_back(0);
         cuts.push_back(n);
-        memset(t, -1, sizeof(t));
-        return solve(cuts, 0, cuts.size()-1);
-       
-        
+        sort(cuts.begin(), cuts.end());
+        int c = cuts.size();
+
+        vector<vector<int>> dp(c, vector<int>(c, 0));
+
+        for (int len = 2; len < c; ++len) {
+            for (int i = 0; i + len < c; ++i) {
+                int j = i + len;
+                dp[i][j] = INT_MAX;
+
+                for (int k = i + 1; k < j; ++k) {
+                    dp[i][j] = min(dp[i][j],
+                                   cuts[j] - cuts[i] + dp[i][k] + dp[k][j]);
+                }
+            }
+        }
+        return dp[0][c - 1];
     }
 };
