@@ -4,9 +4,9 @@ queue<int>q1;
     MyStack() {    
     }
     void push(int x) {
-    int sz = q1.size();
+    int s = q1.size();
     q1.push(x);
-    while(sz--) {
+    while(s--) {
         q1.push(q1.front());
         q1.pop();
      }
