@@ -4,7 +4,7 @@ public:
         int state = 1;
         bool isNum = 0;
         for(char c : s){
-            bool a; // a -> acceptable
+            bool a; 
             if(state == 1){
                 a = isSign(c) || c == '.' || isdigit(c);
                 if(!a) return 0;
